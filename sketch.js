@@ -16,6 +16,7 @@ function setup(){
     //     }
     // }
 
+    // 縦横逆の方が絶対に良かった
     for(var i = 0 ; i < WIDTH_PX ; i++){
         cellState[i] = [];
         for(var j = 0 ; j < HEIGHT_PX ; j++){
@@ -30,13 +31,17 @@ function draw(){
     // ボタンの描画
     stroke(10);
     fill(255);
-    rect(50, 460, 100, 50);
-    rect(200, 460, 100, 50);
+    rect(50, 460, 100, 50);     // RESET
+    rect(200, 460, 100, 50);    // OUTPUT
+    rect(400, 460, 100, 50);    // 左シフト
+    rect(550, 460, 100, 50);    // 右シフト
     textSize(20);
     textAlign(CENTER, CENTER);
     fill(0);
     text("RESET", 50, 460, 100, 50);
     text("OUTPUT", 200, 460, 100, 50);
+    text("左シフト", 400, 460, 100, 50);
+    text("右シフト", 550, 460, 100, 50);
     
 
     // マウス入力
@@ -117,6 +122,39 @@ function mousePressed(){
         outStr += "};";
 
         navigator.clipboard.writeText(outStr);
+    }
+
+    if(400 <= mouseX && mouseX <= 500 && 460 <= mouseY && mouseY <= 510){
+        // 左シフト
+        let temp = Array(HEIGHT_PX);
+        for(let j = 0 ; j < HEIGHT_PX ; j++){
+            temp[j] = cellState[j][0];
+        }
+        for(let i = 0 ; i < WIDTH_PX - 1 ; i++){
+            for(let j = 0 ; j < HEIGHT_PX ; j++){
+                cellState[j][i] = cellState[j][i + 1];
+            }
+        }
+        for(let j = 0 ; j < HEIGHT_PX ; j++){
+            cellState[j][WIDTH_PX - 1] = temp[j];
+        }
+    }
+
+    
+    if(550 <= mouseX && mouseX <= 650 && 460 <= mouseY && mouseY <= 510){
+        // 右シフト
+        let temp = Array(HEIGHT_PX);
+        for(let j = 0 ; j < HEIGHT_PX ; j++){
+            temp[j] = cellState[j][WIDTH_PX - 1];
+        }
+        for(let i = WIDTH_PX - 1 ; i > 0 ; i--){
+            for(let j = 0 ; j < HEIGHT_PX ; j++){
+                cellState[j][i] = cellState[j][i - 1];
+            }
+        }
+        for(let j = 0 ; j < HEIGHT_PX ; j++){
+            cellState[j][0] = temp[j];
+        }
     }
 }
 
