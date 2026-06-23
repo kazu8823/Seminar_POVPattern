@@ -35,6 +35,8 @@ function draw(){
     rect(200, 460, 100, 50);    // OUTPUT
     rect(400, 460, 100, 50);    // 左シフト
     rect(550, 460, 100, 50);    // 右シフト
+    rect(700, 460, 100, 50);    // 上シフト
+    rect(850, 460, 100, 50);    // 下シフト
     textSize(20);
     textAlign(CENTER, CENTER);
     fill(0);
@@ -42,6 +44,8 @@ function draw(){
     text("OUTPUT", 200, 460, 100, 50);
     text("左シフト", 400, 460, 100, 50);
     text("右シフト", 550, 460, 100, 50);
+    text("上シフト", 700, 460, 100, 50);
+    text("下シフト", 850, 460, 100, 50);
     
 
     // マウス入力
@@ -155,6 +159,24 @@ function mousePressed(){
         for(let j = 0 ; j < HEIGHT_PX ; j++){
             cellState[j][0] = temp[j];
         }
+    }
+    
+    if(700 <= mouseX && mouseX <= 800 && 460 <= mouseY && mouseY <= 510){
+        // 上シフト
+        let temp = cellState[0];
+        for(let j = 0 ; j < HEIGHT_PX - 1; j++){
+            cellState[j] = cellState[j + 1];
+        }
+        cellState[HEIGHT_PX - 1] = temp;
+    }
+
+    if(850 <= mouseX && mouseX <= 950 && 460 <= mouseY && mouseY <= 510){
+        // 下シフト
+        let temp = cellState[HEIGHT_PX - 1];
+        for(let j = HEIGHT_PX ; j > 0 ; j--){
+            cellState[j] = cellState[j - 1];
+        }
+        cellState[0] = temp;
     }
 }
 
