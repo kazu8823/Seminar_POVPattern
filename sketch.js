@@ -5,6 +5,9 @@ let CELL_SIZE = 30;
 //boolean[][] cellState = new boolean[HEIGHT_PX][WIDTH_PX]; 
 let cellState = [];
 
+let textRemainTime = 0;
+let textStartPosX = 0;
+let textStartPosY = 0;
 
 function setup(){
     createCanvas(1060, 560);
@@ -26,6 +29,7 @@ function setup(){
 }
 
 function draw(){
+    background(240);
     backDraw();
 
     // ボタンの描画
@@ -47,6 +51,15 @@ function draw(){
     text("上シフト", 700, 460, 100, 50);
     text("下シフト", 850, 460, 100, 50);
     
+
+    if(textRemainTime > 0){
+        textRemainTime--;
+        textSize(10);
+        textAlign(LEFT, BASELINE);
+        fill(0, 0, 0, 255 * (textRemainTime / 60.0));
+        stroke(0, 0, 0, 255 * (textRemainTime / 60.0));
+        text("クリップボードにコピーしました", textStartPosX, textStartPosY - 60 + textRemainTime, 300, 50);
+    }
 
     // マウス入力
     if(mouseIsPressed){
@@ -126,6 +139,10 @@ function mousePressed(){
         outStr += "};";
 
         navigator.clipboard.writeText(outStr);
+
+        textRemainTime = 60;
+        textStartPosX = mouseX;
+        textStartPosY = mouseY;
     }
 
     if(400 <= mouseX && mouseX <= 500 && 460 <= mouseY && mouseY <= 510){
